@@ -17,7 +17,6 @@ namespace ProjectsRequirements_API.Models
 
         // FK -> Users
         [ForeignKey(nameof(CreatedBy))]
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; } = null!;
+        public int CreatedBy { get; set; }
     }
 }
