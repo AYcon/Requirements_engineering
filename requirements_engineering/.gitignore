@@ -22,6 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-ProjectsRequirements_API\.vs
-ProjectsRequirements_API\bin
-ProjectsRequirements_API\obj
+..\ProjectsRequirements_API\.vs
+..\ProjectsRequirements_API\bin
+..\ProjectsRequirements_API\obj
