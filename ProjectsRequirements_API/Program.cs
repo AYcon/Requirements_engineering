@@ -4,19 +4,30 @@ using ProjectsRequirements_API.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 var conn = builder.Configuration.GetConnectionString("ProjectRequirementsDb");
 builder.Services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(conn));
 
-builder.Services.AddControllers();
+// --- Add CORS BEFORE building the app ---
+var allowedOrigins = "_allowedOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowedOrigins,
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
+// --- Build the app ---
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -25,6 +36,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Apply CORS middleware
+app.UseCors(allowedOrigins);
 
 app.UseAuthorization();
 

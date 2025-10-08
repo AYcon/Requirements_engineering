@@ -62,7 +62,7 @@ namespace ProjectsRequirements_API.Controllers
 
         // POST: api/users/login  (simple demo endpoint)
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login([FromBody] CreateUserDto credentials)
+        public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto credentials)
         {
             var u = await _db.Users.FirstOrDefaultAsync(x => x.Email == credentials.Email);
             if (u == null) return Unauthorized();
@@ -70,7 +70,6 @@ namespace ProjectsRequirements_API.Controllers
             if (!PasswordHasher.Verify(credentials.Password, u.PasswordHash))
                 return Unauthorized();
 
-            // Normally you’d issue a JWT here; returning DTO for demo.
             return Ok(new UserDto
             {
                 Id = u.Id,
@@ -79,5 +78,6 @@ namespace ProjectsRequirements_API.Controllers
                 CreatedAt = u.CreatedAt
             });
         }
+
     }
 }
